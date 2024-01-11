@@ -63,7 +63,7 @@ class UtilisateurController extends Utilisateur{
         Template::render('navbar.php', 'Inscription', 'vueAddUser.php', 'footer.php', 
         $error, [], ['main.css']);
     }
-    public function connexionUtilisateur(){
+    public function connexionUtilisateur(): void{
         $error = '';
         // test si le bouton est cliqué
         if(isset($_POST["submit"])){
@@ -89,6 +89,8 @@ class UtilisateurController extends Utilisateur{
                         $_SESSION["image"] = $recup->getImage();
                         $_SESSION["id"] = $recup->getId();
                         $error = "Connecté";
+                        // redirection page d'accueil
+                        header("Refresh:1; url=/choco2024/");
                     }
                     // test si le password est invalide
                     else{
@@ -106,5 +108,10 @@ class UtilisateurController extends Utilisateur{
         }
         Template::render('navbar.php', 'Connexion', 'vueConnexion.php', 'footer.php', 
         $error, [], ['main.css']);   
+    }
+    public function deconnexionUtilisateur(): void{
+        session_destroy();
+        unset($_COOKIE["PHPSESSID"]);
+        header("location:/choco2024");
     }
 }
